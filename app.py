@@ -7,11 +7,16 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/equipos_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
+
+from models import *
+
+print("Modelos cargados:")
+print(db.Model.metadata.tables.keys())
 
 
 @app.route("/")
