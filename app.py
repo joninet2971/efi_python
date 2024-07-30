@@ -1,6 +1,6 @@
 import requests
 
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -14,10 +14,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 from models import *
-
-print("Modelos cargados:")
-print(db.Model.metadata.tables.keys())
-
 
 @app.route("/")
 def index():
@@ -36,3 +32,16 @@ def stock():
     return render_template(
         'stock.html'
     )
+    
+@app.route("/crear_marcas", methods=['POST', 'GET'])
+def agregarMarcas():   
+    marcas = Marca.query.all()
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        nueva_marca = Marca(nombre_marca=nombre)
+        db.session.add(nueva_marca)
+        db.session.commit()
+        return redirect(url_for('agregarMarcas'))
+
+    return render_template('crear_marcas.html', marcas=marcas)
