@@ -9,7 +9,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# Importar y registrar blueprints
 from routes.equipos import equipos_bp
 from routes.stock import stock_bp
 from routes.categorias import categorias_bp
