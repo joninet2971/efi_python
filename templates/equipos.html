@@ -13,22 +13,60 @@
         <a href="/buscar" class="btn btn-info"> Filtrar </a>
     </div>
 </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <td>Marca</td>
-                <td>Modelo</td>
-                <td>Detalle</td>
-                <td>Proveedor</td>
-            </tr>
-        </thead>
-        {% for equipo in equipos %}
-            <tr>
-                <td>{{equipo.marca}}</td>
-                <td>{{equipo.modelo}}</td>
-                <td>{{equipo.detalle}}</td>
-                <td>{{equipo.proveedor}}</td>
-            </tr>
-        {% endfor %}
-    </table>
+<div class="col-6">
+
+    <form action="" method="post">
+        
+        <select name="marca" class="form-control mb-2">
+            <option value="" disabled selected>Seleccionar Marca</option>
+            {% for marca in marcas %}
+            <option value="{{ marca.id }}">{{ marca.nombre_marca }}</option>
+            {% endfor %}
+        </select>
+        
+        <select name="modelo" class="form-control mb-2">
+            <option value="" disabled selected>Seleccionar Modelo</option>
+            {% for modelo in modelos %}
+            <option value="{{ modelo.id }}">{{ modelo.nombre_modelo }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="categoria" class="form-control mb-2">
+            <option value="" disabled selected>Seleccionar Categoria</option>
+            {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="number" name="costo" class="form-control mb-2" placeholder="Costo">
+        <input type="text" name="descripcion" class="form-control mb-2" placeholder="Descripcion">
+        <button type="submit" class="btn btn-success">Guardar</button>
+    
+    </form>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Marca</td>
+            <td>Modelo</td>
+            <td>Categoria</td>
+            <td>Costo</td>
+            <td>Descripcion</td>
+            <td>Editar</td>
+            <td>Borrar</td>
+        </tr>
+    </thead>
+    {% for equipo in equipos %}
+        <tr>
+            <td>{{equipo.marca.nombre_marca}}</td>
+            <td>{{equipo.modelo.nombre_modelo}}</td>
+            <td>{{equipo.categoria.nombre_categoria}}</td>
+            <td>{{equipo.costo}}</td>
+            <td>{{equipo.descripcion}}</td>
+            <td><a href="/equipo/{{equipo.id}}/editar">Editar</a></td>
+            <td><a href="/equipo/{{equipo.id}}/borrar">Borrar</a></td>
+        </tr>
+    {% endfor %}
+</table>
 {% endblock %}

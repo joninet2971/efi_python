@@ -50,12 +50,13 @@ class Categoria(db.Model):
 
 class Equipo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(255), nullable=False)
+    id_marca = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=False)
     id_modelo = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=False)
     id_categoria = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=False)
-    costo = db.Column(db.Numeric(10, 2), nullable=False)
-    descripcion = db.Column(db.Text, nullable=False)
+    costo = db.Column(db.Float, nullable=False)
+    descripcion = db.Column(db.String(255), nullable=False)
     
+    marca = db.relationship('Marca', backref=db.backref('equipos', lazy=True))
     modelo = db.relationship('Modelo', backref=db.backref('equipos', lazy=True))
     categoria = db.relationship('Categoria', backref=db.backref('equipos', lazy=True))
 

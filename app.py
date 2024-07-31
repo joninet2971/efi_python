@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-from models import Fabricante, Marca, Modelo, Proveedor, Categoria
+from models import Fabricante, Marca, Modelo, Proveedor, Categoria, Equipo
 
 @app.route("/")
 def index():
@@ -22,17 +22,39 @@ def index():
         'index.html'
     )
 
-@app.route("/equipos")
+@app.route("/equipos", methods=['GET', 'POST'])
 def equipos():
+    equipos = Equipo.query.all()
+    categorias = Categoria.query.all()
+    marcas = Marca.query.all()
+    modelos = Modelo.query.all()
+
+    if request.method == 'POST':
+        marca = request.form['marca']
+        modelo = request.form['modelo']
+        categoria= request.form['categoria']
+        costo = request.form['costo']
+        descripcion = request.form['descripcion']
+
+        
+
+
+        nuevo_equipo = Equipo(marca=marca, modelo=modelo, categoria=categoria, costo=costo, descripcion=descripcion)
+        db.session.add(nuevo_equipo)
+        db.session.commit()
+        return redirect(url_for('equipos'))
+
     return render_template(
-        'equipos.html'
-    )
+        'equipos.html',
+        equipos=equipos,
+        modelos=modelos,
+        categorias=categorias, 
+        marcas=marcas)
+    
 
 @app.route("/stock")
 def stock():
-    return render_template(
-        'stock.html'
-    )
+    return render_template('stock.html')
 
 @app.route("/categoria", methods=['POST', 'GET'])
 def agregarCategoria():   
@@ -103,7 +125,10 @@ def agregarModelo():
         db.session.commit()
         return redirect(url_for('agregarModelo'))
 
-    return render_template('lista_modelos.html', modelos=modelos, fabricantes=fabricantes, marcas=marcas)
+    return render_template('lista_modelos.html',
+                            modelos=modelos, 
+                            fabricantes=fabricantes, 
+                            marcas=marcas)
 
 
 @app.route("/marca/<id>/editar", methods=['GET', 'POST'])
