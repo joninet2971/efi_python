@@ -1,0 +1,29 @@
+from flask import Blueprint, render_template, redirect, request, url_for
+from models import Categoria
+from app import db
+
+categorias_bp = Blueprint('categorias', __name__)
+
+@categorias_bp.route("/categoria", methods=['POST', 'GET'])
+def agregar_categoria():   
+    categorias = Categoria.query.all()
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        nueva_categoria = Categoria(nombre_categoria=nombre)
+        db.session.add(nueva_categoria)
+        db.session.commit()
+        return redirect(url_for('categorias.agregar_categoria'))
+    
+    return render_template('lista_categorias.html', categorias=categorias)
+
+@categorias_bp.route("/categoria/<id>/editar", methods=['GET', 'POST'])
+def categoria_editar(id):
+    categoria = Categoria.query.get_or_404(id)
+
+    if request.method == 'POST':
+        categoria.nombre_categoria = request.form['nombre']
+        db.session.commit()
+        return redirect(url_for('categorias.agregar_categoria'))
+
+    return render_template('categoria_edit.html', categorias=categoria)
