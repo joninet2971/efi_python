@@ -35,10 +35,6 @@ def equipos():
         categoria= request.form['categoria']
         costo = request.form['costo']
         descripcion = request.form['descripcion']
-
-        
-
-
         nuevo_equipo = Equipo(marca=marca, modelo=modelo, categoria=categoria, costo=costo, descripcion=descripcion)
         db.session.add(nuevo_equipo)
         db.session.commit()
@@ -50,6 +46,31 @@ def equipos():
         modelos=modelos,
         categorias=categorias, 
         marcas=marcas)
+
+@app.route("/equipo/<id>/editar", methods=['GET', 'POST'])
+def equipo_editar(id):
+    equipo = Equipo.query.get_or_404(id)
+
+    equipos = Equipo.query.all()
+    categorias = Categoria.query.all()
+    marcas = Marca.query.all()
+    modelos = Modelo.query.all()
+
+
+    if request.method == 'POST':
+        equipo.id_marca = request.form['marca']
+        equipo.id_modelo = request.form['modelo']
+        equipo.id_categoria = request.form['categoria']
+        equipo.costo = request.form['costo']
+        equipo.descripcion = request.form['descripcion']
+        db.session.commit()
+        return redirect(url_for('equipos'))
+
+    return render_template('equipos_edit.html', 
+        equipo=equipo,
+        categorias=categorias, 
+        marcas=marcas,
+        modelos=modelos)
     
 
 @app.route("/stock")
