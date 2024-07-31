@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-from models import Fabricante, Marca, Modelo, Proveedor, Categoria, Equipo
+from models import Fabricante, Marca, Modelo, Proveedor, Categoria, Equipo, Stock
 
 @app.route("/")
 def index():
@@ -30,22 +30,37 @@ def equipos():
     modelos = Modelo.query.all()
 
     if request.method == 'POST':
-        marca = request.form['marca']
-        modelo = request.form['modelo']
-        categoria= request.form['categoria']
+        marca_id = request.form['marca']
+        modelo_id = request.form['modelo']
+        categoria_id = request.form['categoria']
         costo = request.form['costo']
         descripcion = request.form['descripcion']
-        nuevo_equipo = Equipo(marca=marca, modelo=modelo, categoria=categoria, costo=costo, descripcion=descripcion)
+
+        marca = Marca.query.get(marca_id)
+        modelo = Modelo.query.get(modelo_id)
+        categoria = Categoria.query.get(categoria_id)
+
+        nuevo_equipo = Equipo(
+            marca=marca,
+            modelo=modelo,
+            categoria=categoria,
+            costo=costo,
+            descripcion=descripcion
+        )
+
         db.session.add(nuevo_equipo)
         db.session.commit()
+
         return redirect(url_for('equipos'))
 
     return render_template(
         'equipos.html',
         equipos=equipos,
         modelos=modelos,
-        categorias=categorias, 
-        marcas=marcas)
+        categorias=categorias,
+        marcas=marcas
+    )
+
 
 @app.route("/equipo/<id>/editar", methods=['GET', 'POST'])
 def equipo_editar(id):
@@ -73,9 +88,42 @@ def equipo_editar(id):
         modelos=modelos)
     
 
-@app.route("/stock")
-def stock():
-    return render_template('stock.html')
+@app.route("/stock", methods=['GET', 'POST'])
+def stock():   
+    modelos = Modelo.query.all()
+    fabricantes = Fabricante.query.all()
+    marcas = Marca.query.all()
+    equipos = Equipo.query.all()
+    stocks = Stock.query.all()
+
+    if request.method == 'POST':
+        id_equipo = int(request.form['id_equipo'])
+        cantidad = int(request.form['cantidad'])
+        tipo_movimiento = request.form['tipo_movimiento'] == "True"
+        nuevo_stock = Stock(id_equipo=id_equipo, cantidad=cantidad, tipo_movimiento=tipo_movimiento)
+        db.session.add(nuevo_stock)
+        db.session.commit()
+        return redirect(url_for('stock'))
+
+    stock_actual = {}
+    for equipo in equipos:
+        entradas = 0
+        salidas = 0
+        for x in equipo.stocks:
+            if x.tipo_movimiento:
+                entradas += x.cantidad
+            else:
+                salidas += x.cantidad
+        stock_actual[equipo.id] = entradas - salidas
+
+
+    return render_template('stock.html',
+                            equipos=equipos,
+                            modelos=modelos, 
+                            fabricantes=fabricantes, 
+                            marcas=marcas,
+                            stock_actual=stock_actual)
+
 
 @app.route("/categoria", methods=['POST', 'GET'])
 def agregarCategoria():   

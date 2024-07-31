@@ -5,32 +5,52 @@
 {% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col">
-        <h3>Stock</h3>
-    </div>
-    <div class="col">
-        <a href="/buscar" class="btn btn-info"> Filtrar </a>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <h4>Entradas / salidas</h4>
+            <form action="" method="post">
+                <select name="id_equipo" class="form-control mb-2">
+                    <option value="" disabled selected>Seleccionar Equipo</option>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}">{{ equipo.marca.nombre_marca }} {{ equipo.modelo.nombre_modelo }}</option>
+                    {% endfor %}
+                </select>            
+                <input type="number" name="cantidad" class="form-control mb-2" placeholder="Cantidad">     
+                <select name="tipo_movimiento" class="form-control mb-2">
+                    <option value="" disabled selected>Tipo de Movimiento</option>
+                    <option value="True">Entrada</option>
+                    <option value="False">Salida</option>
+                </select>              
+                
+                <button type="submit" class="btn btn-success">Guardar</button>
+            
+            </form>
+        </div>
+        <div class="col-8">
+            <h4>Listado de Stock</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Equipo</th>
+                        <th>Modelo</th>
+                        <th>Marca</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipo in equipos %}
+                    <tr>
+                        <td>{{ equipo.descripcion }}</td>
+                        <td>{{ equipo.modelo.nombre_modelo }}</td>
+                        <td>{{ equipo.marca.nombre_marca }}</td>
+                        <td>{{ stock_actual[equipo.id] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <td>Cod. producto</td>
-                <td>Marca</td>
-                <td>Modelo</td>
-                <td>Proveedor</td>
-                <td>Cantidad</td>
-            </tr>
-        </thead>
-        {% for equipo in equipos %}
-            <tr>
-                <td>{{equipo.codigo}}</td>
-                <td>{{equipo.marca}}</td>
-                <td>{{equipo.modelo}}</td>
-                <td>{{equipo.proveedor}}</td>
-                <td>{{equipo.cantidad}}</td>
-            </tr>
-        {% endfor %}
-    </table>
 {% endblock %}

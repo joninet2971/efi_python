@@ -76,7 +76,7 @@ class Proveedor_Equipo(db.Model):
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_equipo = db.Column(db.Integer, db.ForeignKey('equipo.id'), nullable=False)
-    cantidad_disponible = db.Column(db.Integer, nullable=False)
-    ubicacion_almacen = db.Column(db.String(255), nullable=False)
+    cantidad = db.Column(db.Integer, nullable=False)
+    tipo_movimiento = db.Column(db.Boolean, nullable=False)
     
     equipo = db.relationship('Equipo', backref=db.backref('stocks', lazy=True))
