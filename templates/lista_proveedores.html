@@ -1,0 +1,43 @@
+{% extends 'template_base.html' %}
+
+{% block title %}
+    Proveedores
+{% endblock %}
+
+{% block body %}
+<style>
+    ul {
+        list-style-type: none;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4>Nuevo Proveedor</h4>
+            <form action="" method="post">
+                <input type="text" name="nombre" class="form-control mb-2" placeholder="Nombre del proveedor">
+                <input type="text" name="contacto" class="form-control mb-2" placeholder="Contacto del proveedor">
+                <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <h4>Listado de Proveedores</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Contacto</td>
+                    </tr>
+                </thead>
+                {% for proveedor in proveedores %}
+                    <tr>
+                        <td>{{ proveedor.nombre_proveedor }}</td>
+                        <td>{{ proveedor.contacto }}</td>
+                        <td><a href="/proveedor/{{proveedor.id}}/editar">Editar</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-from models import Fabricante, Marca, Modelo
+from models import Fabricante, Marca, Modelo, Proveedor, Categoria
 
 @app.route("/")
 def index():
@@ -33,6 +33,33 @@ def stock():
     return render_template(
         'stock.html'
     )
+
+@app.route("/categoria", methods=['POST', 'GET'])
+def agregarCategoria():   
+    categorias = Categoria.query.all()
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        nueva_categoria = Categoria(nombre_categoria=nombre)
+        db.session.add(nueva_categoria)
+        db.session.commit()
+        return redirect(url_for('agregarCategoria'))
+    
+    return render_template('lista_categorias.html', categorias=categorias)
+
+@app.route("/proveedores", methods=['POST', 'GET'])
+def agregarProveedores():   
+    proveedores = Proveedor.query.all()
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        contacto = request.form['contacto']
+        nueva_proveedor = Proveedor(nombre_proveedor=nombre, contacto=contacto)
+        db.session.add(nueva_proveedor)
+        db.session.commit()
+        return redirect(url_for('agregarProveedores'))
+    
+    return render_template('lista_proveedores.html', proveedores=proveedores)
     
 @app.route("/marcas", methods=['POST', 'GET'])
 def agregarMarcas():   
@@ -101,6 +128,29 @@ def fabricante_editar(id):
         return redirect(url_for('agregarFabricante'))
 
     return render_template('fabricante_edit.html', fabricante=fabricante )
+
+@app.route("/categoria/<id>/editar", methods=['GET', 'POST'])
+def categoria_editar(id):
+    categorias = Categoria.query.get_or_404(id)
+
+    if request.method == 'POST':
+        categorias.nombre_categoria = request.form['nombre']
+        db.session.commit()
+        return redirect(url_for('agregarCategoria'))
+
+    return render_template('categoria_edit.html', categorias=categorias)
+
+@app.route("/proveedor/<id>/editar", methods=['GET', 'POST'])
+def proveedor_editar(id):
+    proveedores = Proveedor.query.get_or_404(id)
+
+    if request.method == 'POST':
+        proveedores.nombre_proveedor = request.form['nombre']
+        proveedores.contacto = request.form['contacto']
+        db.session.commit()
+        return redirect(url_for('agregarProveedores'))
+
+    return render_template('proveedor_edit.html', proveedores=proveedores)
 
 
 @app.route("/modelo/<id>/borrar", methods=['GET', 'POST'])

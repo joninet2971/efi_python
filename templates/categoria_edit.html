@@ -1,0 +1,13 @@
+{% extends 'template_base.html' %}
+
+{% block title %}
+Edite la Categoria
+{% endblock %}
+
+{% block body %}
+    <h4>Edite la Categoria</h4>
+    <form action="" method="post">
+        <input type="text" name="nombre" value="{{ categorias.nombre_categoria }}">
+        <button type="submit" class="btn btn-success">Editar</button>
+    </form>
+{% endblock %}

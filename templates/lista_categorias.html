@@ -1,0 +1,41 @@
+{% extends 'template_base.html' %}
+
+{% block title %}
+    Categorias
+{% endblock %}
+
+{% block body %}
+<style>
+    ul {
+        list-style-type: none;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4>Nueva categoria</h4>
+            <form action="" method="post">
+                <input type="text" name="nombre" class="form-control mb-2" placeholder="Nombre de la categoria">
+                <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <h4>Listado de Categorias</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Editar</td>
+                    </tr>
+                </thead>
+                {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.nombre_categoria }}</td>
+                        <td><a href="/categoria/{{categoria.id}}/editar">Editar</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
