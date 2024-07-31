@@ -21,14 +21,20 @@
         </div>
         <div class="col-6">
             <h4>Listado de Marcas</h4>
-            <ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Marca</td>
+                        <td>Editar</td>
+                    </tr>
+                </thead>
                 {% for marca in marcas %}
-                <li>
-                    {{ marca.nombre_marca }}
-                    <a href="/marca/{{marca.id}}/editar">Editar</a>
-                </li>
+                    <tr>
+                        <td>{{ marca.nombre_marca }}</td>
+                        <td><a href="/marca/{{marca.id}}/editar">Editar</a></td>
+                    </tr>
                 {% endfor %}
-            </ul>
+            </table>
         </div>
     </div>
 </div>

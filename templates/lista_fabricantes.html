@@ -17,13 +17,23 @@
         </div>
         <div class="col-6">
             <h4>Listado de Fabricantes</h4>
-            <ul>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Pais</td>
+                        <td>Editar</td>
+                    </tr>
+                </thead>
                 {% for fabricante in fabricantes %}
-                <li>
-                    {{ fabricante.nombre_fabricante }} - {{ fabricante.pais_origen }}
-                </li>
+                    <tr>
+                        <td>{{ fabricante.nombre_fabricante }}</td>
+                        <td>{{ fabricante.pais_origen }}</td>
+                        <td><a href="/fabricante/{{fabricante.id}}/editar">Editar</a></td>
+                    </tr>
                 {% endfor %}
-            </ul>
+            </table>
         </div>
     </div>
 </div>

@@ -90,6 +90,18 @@ def marca_editar(id):
 
     return render_template('marca_edit.html', marca=marca )
 
+@app.route("/fabricante/<id>/editar", methods=['GET', 'POST'])
+def fabricante_editar(id):
+    fabricante = Fabricante.query.get_or_404(id)
+
+    if request.method == 'POST':
+        fabricante.nombre_fabricante = request.form['nombre']
+        fabricante.pais_origen = request.form['pais']
+        db.session.commit()
+        return redirect(url_for('agregarFabricante'))
+
+    return render_template('fabricante_edit.html', fabricante=fabricante )
+
 
 @app.route("/modelo/<id>/borrar", methods=['GET', 'POST'])
 def marca_borrar(id):

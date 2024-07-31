@@ -1,0 +1,14 @@
+{% extends 'template_base.html' %}
+
+{% block title %}
+Edite Fabricante
+{% endblock %}
+
+{% block body %}
+    <h4>Edite Fabricante</h4>
+    <form action="" method="post">
+        <input type="text" name="nombre" value="{{ fabricante.nombre_fabricante}}">
+        <input type="text" name="pais" value="{{ fabricante.pais_origen}}">
+        <button type="submit" class="btn btn-success">Editar</button>
+    </form>
+{% endblock %}
