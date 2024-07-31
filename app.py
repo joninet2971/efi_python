@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-from models import *
+from models import Fabricante, Marca, Modelo
 
 @app.route("/")
 def index():
@@ -34,7 +34,7 @@ def stock():
         'stock.html'
     )
     
-@app.route("/crear_marcas", methods=['POST', 'GET'])
+@app.route("/cargar", methods=['POST', 'GET'])
 def agregarMarcas():   
     marcas = Marca.query.all()
     modelos = Modelo.query.all()
@@ -42,14 +42,19 @@ def agregarMarcas():
 
     if request.method == 'POST':
         if 'nombre' in request.form:
-            # Proceso para agregar una nueva marca
             nombre = request.form['nombre']
             nueva_marca = Marca(nombre_marca=nombre)
             db.session.add(nueva_marca)
             db.session.commit()
             return redirect(url_for('agregarMarcas'))
+        elif 'nombre_fabricante' in request.form and 'pais_origen' in request.form:
+            nombre_fabricante = request.form['nombre_fabricante']
+            pais_origen = request.form['pais_origen']
+            nuevo_fabricante = Fabricante(nombre_fabricante=nombre_fabricante, pais_origen=pais_origen)
+            db.session.add(nuevo_fabricante)
+            db.session.commit()
+            return redirect(url_for('agregarMarcas'))
         elif 'modelo' in request.form and 'id_fabricante' in request.form and 'id_marca' in request.form:
-            # Proceso para agregar un nuevo modelo
             nombre_modelo = request.form['modelo']
             id_fabricante = int(request.form['id_fabricante'])
             id_marca = int(request.form['id_marca'])
@@ -58,4 +63,4 @@ def agregarMarcas():
             db.session.commit()
             return redirect(url_for('agregarMarcas'))
 
-    return render_template('crear_marcas.html', marcas=marcas, modelos=modelos, fabricantes=fabricantes)
+    return render_template('cargar.html', marcas=marcas, modelos=modelos, fabricantes=fabricantes)
