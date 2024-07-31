@@ -34,33 +34,84 @@ def stock():
         'stock.html'
     )
     
-@app.route("/cargar", methods=['POST', 'GET'])
+@app.route("/marcas", methods=['POST', 'GET'])
 def agregarMarcas():   
     marcas = Marca.query.all()
-    modelos = Modelo.query.all()
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        nueva_marca = Marca(nombre_marca=nombre)
+        db.session.add(nueva_marca)
+        db.session.commit()
+        return redirect(url_for('agregarMarcas'))
+    
+    return render_template('lista_marcas.html', marcas=marcas)
+
+@app.route("/fabricantes", methods=['POST', 'GET'])
+def agregarFabricante():   
     fabricantes = Fabricante.query.all()
 
     if request.method == 'POST':
-        if 'nombre' in request.form:
-            nombre = request.form['nombre']
-            nueva_marca = Marca(nombre_marca=nombre)
-            db.session.add(nueva_marca)
-            db.session.commit()
-            return redirect(url_for('agregarMarcas'))
-        elif 'nombre_fabricante' in request.form and 'pais_origen' in request.form:
-            nombre_fabricante = request.form['nombre_fabricante']
-            pais_origen = request.form['pais_origen']
-            nuevo_fabricante = Fabricante(nombre_fabricante=nombre_fabricante, pais_origen=pais_origen)
-            db.session.add(nuevo_fabricante)
-            db.session.commit()
-            return redirect(url_for('agregarMarcas'))
-        elif 'modelo' in request.form and 'id_fabricante' in request.form and 'id_marca' in request.form:
-            nombre_modelo = request.form['modelo']
-            id_fabricante = int(request.form['id_fabricante'])
-            id_marca = int(request.form['id_marca'])
-            nuevo_modelo = Modelo(nombre_modelo=nombre_modelo, id_fabricante=id_fabricante, id_marca=id_marca)
-            db.session.add(nuevo_modelo)
-            db.session.commit()
-            return redirect(url_for('agregarMarcas'))
+        nombre_fabricante = request.form['nombre_fabricante']
+        pais_origen = request.form['pais_origen']
+        nuevo_fabricante = Fabricante(nombre_fabricante=nombre_fabricante, pais_origen=pais_origen)
+        db.session.add(nuevo_fabricante)
+        db.session.commit()
+        return redirect(url_for('agregarFabricante'))
 
-    return render_template('cargar.html', marcas=marcas, modelos=modelos, fabricantes=fabricantes)
+    return render_template('lista_fabricantes.html', fabricantes=fabricantes)
+
+@app.route("/modelos", methods=['POST', 'GET'])
+def agregarModelo():   
+    modelos = Modelo.query.all()
+    fabricantes = Fabricante.query.all()
+    marcas = Marca.query.all()
+
+    if request.method == 'POST':
+        nombre_modelo = request.form['modelo']
+        id_fabricante = int(request.form['id_fabricante'])
+        id_marca = int(request.form['id_marca'])
+        nuevo_modelo = Modelo(nombre_modelo=nombre_modelo, id_fabricante=id_fabricante, id_marca=id_marca)
+        db.session.add(nuevo_modelo)
+        db.session.commit()
+        return redirect(url_for('agregarModelo'))
+
+    return render_template('lista_modelos.html', modelos=modelos, fabricantes=fabricantes, marcas=marcas)
+
+
+@app.route("/marca/<id>/editar", methods=['GET', 'POST'])
+def marca_editar(id):
+    marca = Marca.query.get_or_404(id)
+
+    if request.method == 'POST':
+        marca.nombre_marca = request.form['nombre']
+        db.session.commit()
+        return redirect(url_for('agregarMarcas'))
+
+    return render_template('marca_edit.html', marca=marca )
+
+
+@app.route("/modelo/<id>/borrar", methods=['GET', 'POST'])
+def marca_borrar(id):
+    modelo = Modelo.query.get_or_404(id)
+
+    db.session.delete(modelo)
+    db.session.commit()
+
+    return redirect(url_for('agregarModelo'))
+
+@app.route("/modelo/<id>/editar", methods=['GET', 'POST'])
+def modelo_editar(id):
+    fabricantes = Fabricante.query.all()
+    marcas = Marca.query.all()
+    modelo = Modelo.query.get_or_404(id)
+
+    if request.method == 'POST':
+        modelo.nombre_modelo = request.form['modelo']
+        modelo.id_fabricante = int(request.form['id_fabricante'])
+        modelo.id_marca = int(request.form['id_marca'])
+        db.session.commit()
+        return redirect(url_for('agregarModelo'))
+
+    return render_template('modelo_edit.html', fabricantes=fabricantes, marcas=marcas)
+

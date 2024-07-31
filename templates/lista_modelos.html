@@ -1,70 +1,33 @@
 {% extends 'template_base.html' %}
 
 {% block title %}
-    Marcas y Modelos
+    Modelos
 {% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h4>Nueva marca</h4>
-            <form action="" method="post">
-                <input type="text" name="nombre" class="form-control mb-2" placeholder="Nombre de la Marca">
-                <button type="submit" class="btn btn-success">Guardar</button>
-            </form>
-        </div>
-        <div class="col-6">
-            <h4>Listado de Marcas</h4>
-            <ul>
-                {% for marca in marcas %}
-                <li>
-                    {{ marca.nombre_marca }}
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-            <h4>Nuevo fabricante</h4>
-            <form action="" method="post">
-                <input type="text" name="nombre_fabricante" class="form-control mb-2" placeholder="Nombre del Fabricante">
-                <input type="text" name="pais_origen" class="form-control mb-2" placeholder="País de Origen">
-                <button type="submit" class="btn btn-success">Guardar</button>
-            </form>
-        </div>
-        <div class="col-6">
-            <h4>Listado de Fabricantes</h4>
-            <ul>
-                {% for fabricante in fabricantes %}
-                <li>
-                    {{ fabricante.nombre_fabricante }} - {{ fabricante.pais_origen }}
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
             <h4>Nuevo modelo</h4>
             <form action="" method="post">
                 <input type="text" name="modelo" class="form-control mb-2" placeholder="Nombre del Modelo">
+                
                 <select name="id_fabricante" class="form-control mb-2">
                     <option value="" disabled selected>Seleccionar Fabricante</option>
                     {% for fabricante in fabricantes %}
                     <option value="{{ fabricante.id }}">{{ fabricante.nombre_fabricante }}</option>
                     {% endfor %}
                 </select>
+                
                 <select name="id_marca" class="form-control mb-2">
                     <option value="" disabled selected>Seleccionar Marca</option>
                     {% for marca in marcas %}
                     <option value="{{ marca.id }}">{{ marca.nombre_marca }}</option>
                     {% endfor %}
                 </select>
+                
                 <button type="submit" class="btn btn-success">Guardar</button>
+            
             </form>
         </div>
         <div class="col-6">
@@ -73,6 +36,8 @@
                 {% for modelo in modelos %}
                 <li>
                     {{ modelo.nombre_modelo }} - {{ modelo.fabricante.nombre_fabricante }} - {{ modelo.marca.nombre_marca }}
+                    <a href="/modelo/{{modelo.id}}/editar">Editar</a>
+                    <a href="/modelo//{{modelo.id}}/borrar">Borrar</a>
                 </li>
                 {% endfor %}
             </ul>
