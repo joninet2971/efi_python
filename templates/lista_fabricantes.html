@@ -5,36 +5,59 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <h4>Nuevo fabricante</h4>
-            <form action="" method="post">
-                <input type="text" name="nombre_fabricante" class="form-control mb-2" placeholder="Nombre del Fabricante">
-                <input type="text" name="pais_origen" class="form-control mb-2" placeholder="País de Origen">
-                <button type="submit" class="btn btn-success">Guardar</button>
-            </form>
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="text-primary">Fabricantes</h3>
         </div>
-        <div class="col-6">
-            <h4>Listado de Fabricantes</h4>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>Nombre</td>
-                        <td>Pais</td>
-                        <td>Editar</td>
-                    </tr>
-                </thead>
-                {% for fabricante in fabricantes %}
-                    <tr>
-                        <td>{{ fabricante.nombre_fabricante }}</td>
-                        <td>{{ fabricante.pais_origen }}</td>
-                        <td><a href="/fabricante/{{fabricante.id}}/editar">Editar</a></td>
-                    </tr>
-                {% endfor %}
-            </table>
+    </div>
+    <div class="row">
+        <!-- Nuevo fabricante -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Nuevo Fabricante</h4>
+                    <form action="" method="post">
+                        <div class="form-group mb-3">
+                            <label for="nombre_fabricante" class="form-label">Nombre del Fabricante</label>
+                            <input type="text" id="nombre_fabricante" name="nombre_fabricante" class="form-control" placeholder="Nombre del Fabricante" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="pais_origen" class="form-label">País de Origen</label>
+                            <input type="text" id="pais_origen" name="pais_origen" class="form-control" placeholder="País de Origen" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Listado de fabricantes -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Listado de Fabricantes</h4>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>País</th>
+                                <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fabricante in fabricantes %}
+                            <tr>
+                                <td>{{ fabricante.nombre_fabricante }}</td>
+                                <td>{{ fabricante.pais_origen }}</td>
+                                <td><a href="/fabricante/{{ fabricante.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
+

@@ -5,37 +5,53 @@
 {% endblock %}
 
 {% block body %}
-<style>
-    ul {
-        list-style-type: none;
-    }
-</style>
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <h4>Nueva marca</h4>
-            <form action="" method="post">
-                <input type="text" name="nombre" class="form-control mb-2" placeholder="Nombre de la Marca">
-                <button type="submit" class="btn btn-success">Guardar</button>
-            </form>
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="text-primary">Marcas</h3>
         </div>
-        <div class="col-6">
-            <h4>Listado de Marcas</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>Marca</td>
-                        <td>Editar</td>
-                    </tr>
-                </thead>
-                {% for marca in marcas %}
-                    <tr>
-                        <td>{{ marca.nombre_marca }}</td>
-                        <td><a href="/marca/{{marca.id}}/editar">Editar</a></td>
-                    </tr>
-                {% endfor %}
-            </table>
+    </div>
+    <div class="row">
+        <!-- Nueva marca -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Nueva Marca</h4>
+                    <form action="" method="post">
+                        <div class="form-group mb-3">
+                            <label for="nombre" class="form-label">Nombre de la Marca</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Marca" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Listado de marcas -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Listado de Marcas</h4>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Marca</th>
+                                <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for marca in marcas %}
+                            <tr>
+                                <td>{{ marca.nombre_marca }}</td>
+                                <td><a href="/marca/{{ marca.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
+

@@ -1,56 +1,71 @@
 {% extends 'template_base.html' %}
 
 {% block title %}
-    Stock Equipos
+    Stock de Equipos
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container mt-4">
     <div class="row">
-        <div class="col-4">
-            <h4>Entradas / salidas</h4>
-            <form action="" method="post">
-                <select name="id_equipo" class="form-control mb-2">
-                    <option value="" disabled selected>Seleccionar Equipo</option>
-                    {% for equipo in equipos %}
-                    <option value="{{ equipo.id }}">{{ equipo.marca.nombre_marca }} {{ equipo.modelo.nombre_modelo }}</option>
-                    {% endfor %}
-                </select>            
-                <input type="number" name="cantidad" class="form-control mb-2" placeholder="Cantidad">     
-                <select name="tipo_movimiento" class="form-control mb-2">
-                    <option value="" disabled selected>Tipo de Movimiento</option>
-                    <option value="True">Entrada</option>
-                    <option value="False">Salida</option>
-                </select>              
-                
-                <button type="submit" class="btn btn-success">Guardar</button>
-            
-            </form>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Entradas / Salidas</h4>
+                    <form action="" method="post">
+                        <div class="form-group mb-3">
+                            <label for="id_equipo" class="form-label">Seleccionar Equipo</label>
+                            <select id="id_equipo" name="id_equipo" class="form-control">
+                                <option value="" disabled selected>Seleccionar Equipo</option>
+                                {% for equipo in equipos %}
+                                <option value="{{ equipo.id }}">{{ equipo.marca.nombre_marca }} {{ equipo.modelo.nombre_modelo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Cantidad" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="tipo_movimiento" class="form-label">Tipo de Movimiento</label>
+                            <select id="tipo_movimiento" name="tipo_movimiento" class="form-control">
+                                <option value="" disabled selected>Tipo de Movimiento</option>
+                                <option value="True">Entrada</option>
+                                <option value="False">Salida</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="col-8">
-            <h4>Listado de Stock</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Equipo</th>
-                        <th>Modelo</th>
-                        <th>Marca</th>
-                        <th>Stock</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for equipo in equipos %}
-                    <tr>
-                        <td>{{ equipo.descripcion }}</td>
-                        <td>{{ equipo.modelo.nombre_modelo }}</td>
-                        <td>{{ equipo.marca.nombre_marca }}</td>
-                        <td>{{ stock_actual[equipo.id] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
+        <div class="col-md-8 mb-4">
+            <h3 class="text-info">Listado de Stock</h3>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Modelo</th>
+                                <th>Marca</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for equipo in equipos %}
+                            <tr>
+                                <td>{{ equipo.descripcion }}</td>
+                                <td>{{ equipo.modelo.nombre_modelo }}</td>
+                                <td>{{ equipo.marca.nombre_marca }}</td>
+                                <td>{{ stock_actual[equipo.id] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        
     </div>
 </div>
 {% endblock %}
