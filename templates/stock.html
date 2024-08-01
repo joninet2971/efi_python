@@ -46,18 +46,14 @@
                     <table class="table table-striped">
                         <thead class="table-dark">
                             <tr>
-                                <th>Descripción</th>
-                                <th>Modelo</th>
-                                <th>Marca</th>
+                                <th>Equipo</th>
                                 <th>Stock</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for equipo in equipos %}
                             <tr>
-                                <td>{{ equipo.descripcion }}</td>
-                                <td>{{ equipo.modelo.nombre_modelo }}</td>
-                                <td>{{ equipo.marca.nombre_marca }}</td>
+                                <td>{{ equipo.marca.nombre_marca }}  -  {{ equipo.modelo.nombre_modelo }}  -  {{ equipo.descripcion }}  -  ${{ equipo.costo }}</td>
                                 <td>{{ stock_actual[equipo.id] }}</td>
                             </tr>
                             {% endfor %}

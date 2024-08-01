@@ -6,26 +6,24 @@ equipos_bp = Blueprint('equipos', __name__)
 
 @equipos_bp.route("/equipos", methods=['GET', 'POST'])
 def equipos():
+    print('entre a la funcion')
     equipos = Equipo.query.all()
     categorias = Categoria.query.all()
     marcas = Marca.query.all()
     modelos = Modelo.query.all()
 
     if request.method == 'POST':
-        marca_id = request.form['marca']
-        modelo_id = request.form['modelo']
-        categoria_id = request.form['categoria']
-        costo = request.form['costo']
+        marca = request.form['marca']
+        modelo = request.form['modelo']
+        categoria = request.form['categoria']
+        costo = float(request.form['costo'])
         descripcion = request.form['descripcion']
 
-        marca = Marca.query.get(marca_id)
-        modelo = Modelo.query.get(modelo_id)
-        categoria = Categoria.query.get(categoria_id)
-
+        print(f"request marca: :::::::::{request.form['marca']}")
         nuevo_equipo = Equipo(
-            marca=marca,
-            modelo=modelo,
-            categoria=categoria,
+            id_marca=marca,
+            id_modelo=modelo,
+            id_categoria=categoria,
             costo=costo,
             descripcion=descripcion
         )
@@ -34,7 +32,7 @@ def equipos():
         db.session.commit()
 
         return redirect(url_for('equipos.equipos'))
-
+   
     return render_template(
         'equipos.html',
         equipos=equipos,
@@ -47,7 +45,6 @@ def equipos():
 def equipo_editar(id):
     equipo = Equipo.query.get_or_404(id)
 
-    equipos = Equipo.query.all()
     categorias = Categoria.query.all()
     marcas = Marca.query.all()
     modelos = Modelo.query.all()
@@ -66,3 +63,12 @@ def equipo_editar(id):
         categorias=categorias, 
         marcas=marcas,
         modelos=modelos)
+
+@equipos_bp.route("/equipo/<id>/borrar", methods=['GET', 'POST'])
+def equipo_borrar(id):
+    equipo = Equipo.query.get_or_404(id)
+
+    db.session.delete(equipo)
+    db.session.commit()
+
+    return redirect(url_for('equipos.equipos'))

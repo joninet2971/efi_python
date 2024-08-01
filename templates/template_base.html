@@ -10,6 +10,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   </head>
   <body>
     <header class="bg-dark py-3 mb-4">
@@ -27,15 +28,15 @@
             </nav>
         </div>
     </header>
-   
-    <div class="container">
-      {% block body %}{% endblock %}
-    </div>
+
+    <main>
+        <div class="container">
+        {% block body %}{% endblock %}
+        </div>
+    </main>
 
     <footer class="bg-dark py-3 mt-4">
-        <div class="container">
-            <p class="text-white text-center mb-0">© 2024 Mundo Celular. Todos los derechos reservados.</p>
-        </div>
+        <p class="text-white text-center mb-0">© 2024 Mundo Celular. Todos los derechos reservados.</p>
     </footer>
 
     <!-- Optional JavaScript -->
