@@ -14,7 +14,7 @@ def stock():
 
     if request.method == 'POST':
         id_equipo = int(request.form['id_equipo'])
-        cantidad = int(request.form['cantidad'])
+        cantidad = request.form['cantidad']
         tipo_movimiento = request.form['tipo_movimiento'] == "True"
         nuevo_stock = Stock(id_equipo=id_equipo, cantidad=cantidad, tipo_movimiento=tipo_movimiento)
         db.session.add(nuevo_stock)
