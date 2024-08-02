@@ -43,9 +43,9 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-          const filterForm = document.getElementById("filterForm");
-          const marcaSelect = document.getElementById("marca");
-          const equiposTable = document.getElementById("equiposTable");
+          const filterForm = document.querySelector(".filter-form");
+          const marcaSelect = document.querySelector(".marca-select");
+          const equiposTable = document.querySelector(".equipos-table");
       
           marcaSelect.addEventListener("change", function() {
               const selectedMarca = marcaSelect.value.toLowerCase();

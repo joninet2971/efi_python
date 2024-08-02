@@ -5,74 +5,55 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row mb-4">
-        <div class="col">
-            <h3 class="text-info">Lista de Equipos</h3>
-        </div>
+<div class="row mb-4">
+    <div class="col">
+        <h3 class="text-info">Lista de Equipos</h3>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <form id="filterForm">
-                <div class="form-group">
-                    <label for="marca">Filtrar por Marca:</label>
-                    <select name="marca" id="marca" class="form-control">
-                        <option value="">Todas las Marcas</option>
-                        {% for marca in marcas %}
-                            <option value="{{ marca.nombre_marca }}">{{ marca.nombre_marca }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </form>
-
-            <table class="table table-striped mt-4">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Categoria</th>
-                        <th>Costo</th>
-                        <th>Descripcion</th>
-                        <th>Editar</th>
-                        <th>Borrar</th>
-                    </tr>
-                </thead>
-                <tbody id="equiposTable">
-                    {% for equipo in equipos %}
-                    <tr data-marca="{{ equipo.marca.nombre_marca|lower }}">
-                        <td>{{ equipo.marca.nombre_marca }}</td>
-                        <td>{{ equipo.modelo.nombre_modelo }}</td>
-                        <td>{{ equipo.categoria.nombre_categoria }}</td>
-                        <td>{{ equipo.costo }}</td>
-                        <td>{{ equipo.descripcion }}</td>
-                        <td><a href="/equipo/{{ equipo.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
-                        <td><a href="/equipo/{{ equipo.id }}/borrar" class="btn btn-danger btn-sm">Borrar</a></td>
-                    </tr>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form class="filter-form">
+            <div class="form-group">
+                <label for="marca-filter">Filtrar por Marca:</label>
+                <select name="marca" id="marca-filter" class="form-control marca-select">
+                    <option value="">Todas las Marcas</option>
+                    {% for marca in marcas %}
+                        <option value="{{ marca.nombre_marca }}">{{ marca.nombre_marca }}</option>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                </select>
+            </div>
+        </form>
+
+        <table class="table table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Categoria</th>
+                    <th>Costo</th>
+                    <th>Descripcion</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody class="equipos-table">
+                {% for equipo in equipos %}
+                <tr data-marca="{{ equipo.marca.nombre_marca|lower }}">
+                    <td>{{ equipo.marca.nombre_marca }}</td>
+                    <td>{{ equipo.modelo.nombre_modelo }}</td>
+                    <td>{{ equipo.categoria.nombre_categoria }}</td>
+                    <td>{{ equipo.costo }}</td>
+                    <td>{{ equipo.descripcion }}</td>
+                    <td><a href="/equipo/{{ equipo.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
+                    <td><a href="/equipo/{{ equipo.id }}/borrar" class="btn btn-danger btn-sm">Borrar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const marcaSelect = document.getElementById("marca");
-    const equiposTable = document.getElementById("equiposTable");
-
-    marcaSelect.addEventListener("change", function() {
-        const selectedMarca = marcaSelect.value.toLowerCase();
-        const rows = equiposTable.getElementsByTagName("tr");
-
-        for (let row of rows) {
-            const marca = row.getAttribute("data-marca");
-            if (selectedMarca === "" || marca === selectedMarca) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        }
-    });
-});
-</script>
 {% endblock %}

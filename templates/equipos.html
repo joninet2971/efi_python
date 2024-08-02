@@ -76,7 +76,19 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <table class="table table-striped">
+            <form class="filter-form">
+                <div class="form-group">
+                    <label for="marca-filter">Filtrar por Marca:</label>
+                    <select name="marca" id="marca-filter" class="form-control marca-select">
+                        <option value="">Todas las Marcas</option>
+                        {% for marca in marcas %}
+                            <option value="{{ marca.nombre_marca }}">{{ marca.nombre_marca }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+            <table class="table table-striped mt-4">
                 <thead class="table-dark">
                     <tr>
                         <th>Marca</th>
@@ -88,9 +100,9 @@
                         <th>Borrar</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="equipos-table">
                     {% for equipo in equipos %}
-                    <tr>
+                    <tr data-marca="{{ equipo.marca.nombre_marca|lower }}">
                         <td>{{ equipo.marca.nombre_marca }}</td>
                         <td>{{ equipo.modelo.nombre_modelo }}</td>
                         <td>{{ equipo.categoria.nombre_categoria }}</td>
@@ -104,6 +116,9 @@
             </table>
         </div>
     </div>
-
 </div>
+{% endblock %}
+
+{% block scripts %}
+
 {% endblock %}
