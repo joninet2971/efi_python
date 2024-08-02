@@ -1,8 +1,8 @@
-"""Initial migration.
+"""iniciando
 
-Revision ID: 9f5cd994293c
+Revision ID: b123905ac518
 Revises: 
-Create Date: 2024-07-30 18:52:35.203306
+Create Date: 2024-08-02 01:13:17.282336
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9f5cd994293c'
+revision = 'b123905ac518'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -71,12 +71,13 @@ def upgrade():
     )
     op.create_table('equipo',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('nombre', sa.String(length=255), nullable=False),
+    sa.Column('id_marca', sa.Integer(), nullable=False),
     sa.Column('id_modelo', sa.Integer(), nullable=False),
     sa.Column('id_categoria', sa.Integer(), nullable=False),
-    sa.Column('costo', sa.Numeric(precision=10, scale=2), nullable=False),
-    sa.Column('descripcion', sa.Text(), nullable=False),
+    sa.Column('costo', sa.Float(), nullable=False),
+    sa.Column('descripcion', sa.String(length=255), nullable=False),
     sa.ForeignKeyConstraint(['id_categoria'], ['categoria.id'], ),
+    sa.ForeignKeyConstraint(['id_marca'], ['marca.id'], ),
     sa.ForeignKeyConstraint(['id_modelo'], ['modelo.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -99,8 +100,8 @@ def upgrade():
     op.create_table('stock',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('id_equipo', sa.Integer(), nullable=False),
-    sa.Column('cantidad_disponible', sa.Integer(), nullable=False),
-    sa.Column('ubicacion_almacen', sa.String(length=255), nullable=False),
+    sa.Column('cantidad', sa.Integer(), nullable=False),
+    sa.Column('tipo_movimiento', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['id_equipo'], ['equipo.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -7,11 +7,12 @@
 {% block body %}
 <div class="row mb-4">
     <div class="col">
-        <h3 class="text-info">Lista de Equipos</h3>
+        <h3 class="text-info">Inicio - Lista de Equipos</h3>
     </div>
 </div>
 <div class="card">
     <div class="card-body">
+
         <form class="filter-form">
             <div class="form-group">
                 <label for="marca-filter">Filtrar por Marca:</label>
@@ -32,8 +33,6 @@
                     <th>Categoria</th>
                     <th>Costo</th>
                     <th>Descripcion</th>
-                    <th>Editar</th>
-                    <th>Borrar</th>
                 </tr>
             </thead>
             <tbody class="equipos-table">
@@ -41,11 +40,9 @@
                 <tr data-marca="{{ equipo.marca.nombre_marca|lower }}">
                     <td>{{ equipo.marca.nombre_marca }}</td>
                     <td>{{ equipo.modelo.nombre_modelo }}</td>
-                    <td>{{ equipo.categoria.nombre_categoria }}</td>
+                    <td>{{ equipo.modelo.categoria.nombre_categoria }}</td>
                     <td>{{ equipo.costo }}</td>
                     <td>{{ equipo.descripcion }}</td>
-                    <td><a href="/equipo/{{ equipo.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
-                    <td><a href="/equipo/{{ equipo.id }}/borrar" class="btn btn-danger btn-sm">Borrar</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

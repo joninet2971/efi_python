@@ -39,6 +39,15 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="id_categoria" class="form-label">Seleccionar Categoria</label>
+                            <select id="id_categoria " name="id_categoria"  class="form-control">
+                                <option value="" disabled selected>Seleccionar Categoria</option>
+                                {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-success">Guardar</button>
                     </form>
                 </div>
@@ -54,6 +63,7 @@
                                 <th>Modelo</th>
                                 <th>Fabricante</th>
                                 <th>Marca</th>
+                                <th>Categoria</th>
                                 <th>Editar</th>
                                 <th>Borrar</th>
                             </tr>
@@ -64,6 +74,7 @@
                                 <td>{{ modelo.nombre_modelo }}</td>
                                 <td>{{ modelo.fabricante.nombre_fabricante }}</td>
                                 <td>{{ modelo.marca.nombre_marca }}</td>
+                                <td>{{ modelo.categoria.nombre_categoria }}</td>
                                 <td><a href="/modelo/{{ modelo.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
                                 <td><a href="/modelo/{{ modelo.id }}/borrar" class="btn btn-danger btn-sm">Borrar</a></td>
                             </tr>

@@ -31,23 +31,10 @@
                         <label for="modelo">Modelo</label>
                         <select id="modelo" name="modelo" class="form-control">
                             <option value="" disabled selected>Seleccionar Modelo</option>
-                            {% for modelo in modelos %}
-                            <option value="{{ modelo.id }}">{{ modelo.nombre_modelo }}</option>
-                            {% endfor %}
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="categoria">Categoría</label>
-                        <select id="categoria" name="categoria" class="form-control">
-                            <option value="" disabled selected>Seleccionar Categoría</option>
-                            {% for categoria in categorias %}
-                            <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
+                
                 <div class="col-md-6 mb-3">
                     <div class="form-group">
                         <label for="costo">Costo</label>
@@ -76,6 +63,7 @@
     </div>
     <div class="card">
         <div class="card-body">
+
             <form class="filter-form">
                 <div class="form-group">
                     <label for="marca-filter">Filtrar por Marca:</label>
@@ -105,7 +93,7 @@
                     <tr data-marca="{{ equipo.marca.nombre_marca|lower }}">
                         <td>{{ equipo.marca.nombre_marca }}</td>
                         <td>{{ equipo.modelo.nombre_modelo }}</td>
-                        <td>{{ equipo.categoria.nombre_categoria }}</td>
+                        <td>{{ equipo.modelo.categoria.nombre_categoria }}</td>
                         <td>{{ equipo.costo }}</td>
                         <td>{{ equipo.descripcion }}</td>
                         <td><a href="/equipo/{{ equipo.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
@@ -116,9 +104,31 @@
             </table>
         </div>
     </div>
+
 </div>
+
+<script>
+document.getElementById('marca').addEventListener('change', function() {
+    var marcaId = this.value;
+    var modeloSelect = document.getElementById('modelo');
+    modeloSelect.innerHTML = '<option value="" disabled selected>Seleccionar Modelo</option>';
+    if (marcaId) {
+        fetch('/modelos/' + marcaId)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(function(modelo) {
+                    var option = document.createElement('option');
+                    option.value = modelo.id;
+                    option.text = modelo.nombre_modelo;
+                    modeloSelect.appendChild(option);
+                });
+            });
+    }
+});
+
+</script>
+
 {% endblock %}
 
 {% block scripts %}
-
 {% endblock %}

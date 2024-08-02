@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, jsonify
 from models import Equipo, Categoria, Marca, Modelo
 from app import db
 
@@ -15,15 +15,12 @@ def equipos():
     if request.method == 'POST':
         marca = request.form['marca']
         modelo = request.form['modelo']
-        categoria = request.form['categoria']
         costo = float(request.form['costo'])
         descripcion = request.form['descripcion']
 
-        print(f"request marca: :::::::::{request.form['marca']}")
         nuevo_equipo = Equipo(
             id_marca=marca,
             id_modelo=modelo,
-            id_categoria=categoria,
             costo=costo,
             descripcion=descripcion
         )
@@ -72,3 +69,9 @@ def equipo_borrar(id):
     db.session.commit()
 
     return redirect(url_for('equipos.equipos'))
+
+@equipos_bp.route("/modelos/<marca_id>")
+def get_modelos(marca_id):
+    modelos = Modelo.query.filter_by(id_marca=marca_id).all()
+    modelos_data = [{'id': modelo.id, 'nombre_modelo': modelo.nombre_modelo} for modelo in modelos]
+    return jsonify(modelos_data)

@@ -14,9 +14,12 @@ class Modelo(db.Model):
     nombre_modelo = db.Column(db.String(255), nullable=False)
     id_fabricante = db.Column(db.Integer, db.ForeignKey('fabricante.id'), nullable=False)
     id_marca = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=False)
-    
+    id_categoria = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=False)
+
     fabricante = db.relationship('Fabricante', backref=db.backref('modelos', lazy=True))
     marca = db.relationship('Marca', backref=db.backref('modelos', lazy=True))
+    categoria = db.relationship('Categoria', backref=db.backref('equipos', lazy=True))
+
 
 class Accesorio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,14 +55,12 @@ class Equipo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_marca = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=False)
     id_modelo = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=False)
-    id_categoria = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=False)
     costo = db.Column(db.Float, nullable=False)
     descripcion = db.Column(db.String(255), nullable=False)
     
     marca = db.relationship('Marca', backref=db.backref('equipos', lazy=True))
     modelo = db.relationship('Modelo', backref=db.backref('equipos', lazy=True))
-    categoria = db.relationship('Categoria', backref=db.backref('equipos', lazy=True))
-
+    
 class Proveedor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_proveedor = db.Column(db.String(255), nullable=False)
