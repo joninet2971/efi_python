@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -16,6 +16,8 @@ from routes.proveedores import proveedores_bp
 from routes.marcas import marcas_bp
 from routes.fabricantes import fabricantes_bp
 from routes.modelos import modelos_bp
+from routes.index import index_bp
+
 
 app.register_blueprint(equipos_bp)
 app.register_blueprint(stock_bp)
@@ -24,10 +26,11 @@ app.register_blueprint(proveedores_bp)
 app.register_blueprint(marcas_bp)
 app.register_blueprint(fabricantes_bp)
 app.register_blueprint(modelos_bp)
+app.register_blueprint(index_bp)
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return redirect(url_for('index.index'))
 
 if __name__ == "__main__":
     app.run(debug=True)
