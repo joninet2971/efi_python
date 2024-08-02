@@ -18,7 +18,7 @@ def agregar_proveedores():
     
     return render_template('lista_proveedores.html', proveedores=proveedores)
 
-@proveedores_bp.route("/proveedor/<id>/editar", methods=['GET', 'POST'])
+@proveedores_bp.route("/proveedor/<int:id>/editar", methods=['GET', 'POST'])
 def proveedor_editar(id):
     proveedor = Proveedor.query.get_or_404(id)
 
@@ -26,6 +26,6 @@ def proveedor_editar(id):
         proveedor.nombre_proveedor = request.form['nombre']
         proveedor.contacto = request.form['contacto']
         db.session.commit()
-        return redirect(url_for('proveedores.agregar_proveedores'))
+        return redirect(url_for('proveedores.agregar_proveedores'))  # Ajusta la ruta de redirección según corresponda
 
-    return render_template('proveedor_edit.html', proveedores=proveedor)
+    return render_template('proveedor_edit.html', proveedor=proveedor)

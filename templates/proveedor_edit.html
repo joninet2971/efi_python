@@ -13,10 +13,10 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
+            <div class="card p-3 mb-2 bg-secondary text-white">
+                <div class="card-body p-3 mb-2 bg-secondary text-white">
                     <h4 class="card-title">Edite el Proveedor</h4>
-                    <form action="" method="post">
+                    <form action="{{ url_for('proveedores.proveedor_editar', id=proveedor.id) }}" method="post">
                         <div class="form-group mb-3">
                             <label for="nombre" class="form-label">Nombre del Proveedor</label>
                             <input type="text" id="nombre" name="nombre" class="form-control" value="{{ proveedor.nombre_proveedor }}" placeholder="Nombre del Proveedor" required>
