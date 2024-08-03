@@ -30,7 +30,7 @@ app.register_blueprint(index_bp)
 
 @app.route("/")
 def index():
-    return redirect(url_for('index.index'))
+    return redirect(url_for('index.buscar'))
 
 if __name__ == "__main__":
     app.run(debug=True)
