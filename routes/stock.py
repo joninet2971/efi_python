@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, url_for
-from models import Stock, Modelo, Fabricante, Marca, Equipo
+from models import Modelo, Fabricante, Marca, Equipo
 from app import db
 
 stock_bp = Blueprint('stock', __name__)
@@ -10,14 +10,14 @@ def stock():
     fabricantes = Fabricante.query.all()
     marcas = Marca.query.all()
     equipos = Equipo.query.all()
-    stocks = Stock.query.all()
+    
 
     if request.method == 'POST':
         id_equipo = int(request.form['id_equipo'])
         cantidad = request.form['cantidad']
         tipo_movimiento = request.form['tipo_movimiento'] == "True"
-        nuevo_stock = Stock(id_equipo=id_equipo, cantidad=cantidad, tipo_movimiento=tipo_movimiento)
-        db.session.add(nuevo_stock)
+        
+        
         db.session.commit()
         return redirect(url_for('stock.stock'))
 
