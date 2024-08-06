@@ -11,7 +11,8 @@ def agregar_proveedores():
     if request.method == 'POST':
         nombre = request.form['nombre']
         contacto = request.form['contacto']
-        nuevo_proveedor = Proveedor(nombre_proveedor=nombre, contacto=contacto)
+        condicion_fiscal = request.form['condicion_fiscal']
+        nuevo_proveedor = Proveedor(nombre_proveedor=nombre,condicion_fiscal=condicion_fiscal, contacto=contacto)
         db.session.add(nuevo_proveedor)
         db.session.commit()
         return redirect(url_for('proveedores.agregar_proveedores'))
@@ -24,6 +25,7 @@ def proveedor_editar(id):
 
     if request.method == 'POST':
         proveedor.nombre_proveedor = request.form['nombre']
+        proveedor.condicion_fiscal = request.form['condicion_fiscal']
         proveedor.contacto = request.form['contacto']
         db.session.commit()
         return redirect(url_for('proveedores.agregar_proveedores'))  # Ajusta la ruta de redirección según corresponda

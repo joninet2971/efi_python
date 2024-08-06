@@ -17,6 +17,7 @@ from routes.marcas import marcas_bp
 from routes.fabricantes import fabricantes_bp
 from routes.modelos import modelos_bp
 from routes.index import index_bp
+from routes.clientes import clientes_bp
 
 
 app.register_blueprint(equipos_bp)
@@ -27,6 +28,7 @@ app.register_blueprint(marcas_bp)
 app.register_blueprint(fabricantes_bp)
 app.register_blueprint(modelos_bp)
 app.register_blueprint(index_bp)
+app.register_blueprint(clientes_bp)
 
 @app.route("/")
 def index():

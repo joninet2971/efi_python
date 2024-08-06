@@ -59,29 +59,30 @@ class Cliente(db.Model):
     condicion_fiscal = db.Column(db.String(255), nullable=False)
     contacto = db.Column(db.String(255), nullable=False)
 
-class Tipo_Comprobante(db.Model):
+
+class Tipocomprobante(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_comprobante = db.Column(db.String(255), nullable=False, unique=True)
 
 class Compra(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    id_tipo_comprobante = db.Column(db.Integer, db.ForeignKey('tipo_comprobante.id'), nullable=False)
+    id_tipo_comprobante = db.Column(db.Integer, db.ForeignKey('tipocomprobante.id'), nullable=False)
     numero_factura = db.Column(db.String(255), nullable=False, unique=True)
     detalle = db.Column(db.String(255), nullable=False)
     id_proveedor = db.Column(db.Integer, db.ForeignKey('proveedor.id'), nullable=False)
     
     proveedor = db.relationship('Proveedor', backref=db.backref('compras', lazy=True))
-    tipo_comprobante = db.relationship('Tipo_Comprobante', backref=db.backref('compras', lazy=True))
+    tipo_comprobante = db.relationship('Tipocomprobante', backref=db.backref('compras', lazy=True))
 
 class Venta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    id_tipo_comprobante = db.Column(db.Integer, db.ForeignKey('tipo_comprobante.id'), nullable=False)
+    id_tipo_comprobante = db.Column(db.Integer, db.ForeignKey('tipocomprobante.id'), nullable=False)
     numero_factura = db.Column(db.String(255), nullable=False, unique=True)
     detalle = db.Column(db.String(255), nullable=False)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
     
     cliente = db.relationship('Cliente', backref=db.backref('ventas', lazy=True))
-    tipo_comprobante = db.relationship('Tipo_Comprobante', backref=db.backref('ventas', lazy=True))
+    tipo_comprobante = db.relationship('Tipocomprobante', backref=db.backref('ventas', lazy=True))
 
 class Detalle_Venta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
