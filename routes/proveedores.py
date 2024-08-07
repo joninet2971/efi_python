@@ -6,7 +6,9 @@ proveedores_bp = Blueprint('proveedores', __name__)
 
 @proveedores_bp.route("/proveedores", methods=['POST', 'GET'])
 def agregar_proveedores():   
-    proveedores = Proveedor.query.all()
+    
+    proveedores = Proveedor.query.filter_by(activo=True).all()
+    print(proveedores)
 
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -31,3 +33,10 @@ def proveedor_editar(id):
         return redirect(url_for('proveedores.agregar_proveedores'))  # Ajusta la ruta de redirección según corresponda
 
     return render_template('proveedor_edit.html', proveedor=proveedor)
+
+@proveedores_bp.route("/proveedor/<int:id>/eliminar")
+def eliminar_equipo(id):
+    equipo = Proveedor.query.get_or_404(id)
+    equipo.activo = False
+    db.session.commit()
+    return redirect(url_for('proveedores.agregar_proveedores'))

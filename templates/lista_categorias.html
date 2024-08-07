@@ -35,6 +35,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Editar</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,6 +43,7 @@
                             <tr>
                                 <td>{{ categoria.nombre_categoria }}</td>
                                 <td><a href="/categoria/{{ categoria.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
+                                <td><a href="/categoria/{{ categoria.id }}/eliminar" class="btn btn-danger btn-sm">Eliminar</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

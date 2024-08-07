@@ -40,6 +40,7 @@
                                 <th>Nombre</th>
                                 <th>País</th>
                                 <th>Editar</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +49,7 @@
                                 <td>{{ fabricante.nombre_fabricante }}</td>
                                 <td>{{ fabricante.pais_origen }}</td>
                                 <td><a href="/fabricante/{{ fabricante.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
+                                <td><a href="/fabricante/{{ fabricante.id }}/eliminar" class="btn btn-danger btn-sm">Eliminar</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

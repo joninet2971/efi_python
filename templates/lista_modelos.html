@@ -65,7 +65,7 @@
                                 <th>Marca</th>
                                 <th>Categoria</th>
                                 <th>Editar</th>
-                                <th>Borrar</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,7 +76,7 @@
                                 <td>{{ modelo.marca.nombre_marca }}</td>
                                 <td>{{ modelo.categoria.nombre_categoria }}</td>
                                 <td><a href="/modelo/{{ modelo.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
-                                <td><a href="/modelo/{{ modelo.id }}/borrar" class="btn btn-danger btn-sm">Borrar</a></td>
+                                <td><a href="/modelo/{{ modelo.id }}/borrar" class="btn btn-danger btn-sm">Eliminar</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

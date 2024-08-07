@@ -49,6 +49,7 @@
                                 <th>Contacto</th>
                                 <th>Condicion Fiscal</th>
                                 <th>Editar</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,6 +59,7 @@
                                 <td>{{ cliente.contacto }}</td>
                                 <td>{{ cliente.condicion_fiscal }}</td>
                                 <td><a href="/cliente/{{ cliente.id }}/editar" class="btn btn-warning btn-sm">Editar</a></td>
+                                <td><a href="/cliente/{{ cliente.id }}/eliminar" class="btn btn-danger btn-sm">Eliminar</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

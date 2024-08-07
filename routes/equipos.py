@@ -1,13 +1,14 @@
 from flask import Blueprint, render_template, redirect, request, url_for, jsonify
 from models import Equipo, Categoria, Marca, Modelo
+
 from app import db
 
 equipos_bp = Blueprint('equipos', __name__)
 
 @equipos_bp.route("/equipos", methods=['GET', 'POST'])
 def equipos():
-    print('entre a la funcion')
-    equipos = Equipo.query.all()
+    equipos = Equipo.query.filter_by(activo=True).all()
+    
     categorias = Categoria.query.all()
     marcas = Marca.query.all()
     modelos = Modelo.query.all()

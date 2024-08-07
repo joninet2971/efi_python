@@ -1,5 +1,6 @@
 from app import db
 
+
 class Fabricante(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_fabricante = db.Column(db.String(255), nullable=False)
@@ -41,8 +42,10 @@ class Equipo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_marca = db.Column(db.Integer, db.ForeignKey('marca.id'), nullable=False)
     id_modelo = db.Column(db.Integer, db.ForeignKey('modelo.id'), nullable=False)
-    costo = db.Column(db.Float, nullable=False)
+    
     descripcion = db.Column(db.String(255), nullable=False)
+
+    activo = db.Column(db.Boolean, default=True, nullable=False)
     
     marca = db.relationship('Marca', backref=db.backref('equipos', lazy=True))
     modelo = db.relationship('Modelo', backref=db.backref('equipos', lazy=True))
@@ -52,6 +55,8 @@ class Proveedor(db.Model):
     nombre_proveedor = db.Column(db.String(255), nullable=False)
     condicion_fiscal = db.Column(db.String(255), nullable=False)
     contacto = db.Column(db.String(255), nullable=False)
+
+    activo = db.Column(db.Boolean, default=True, nullable=False)
 
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
