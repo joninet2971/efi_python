@@ -6,7 +6,7 @@ marcas_bp = Blueprint('marcas', __name__)
 
 @marcas_bp.route("/marcas", methods=['POST', 'GET'])
 def agregar_marcas():   
-    marcas = Marca.query.all()
+    marcas = Marca.query.filter_by(activo=True).all()
 
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -27,3 +27,10 @@ def marca_editar(id):
         return redirect(url_for('marcas.agregar_marcas'))
 
     return render_template('marca_edit.html', marca=marca)
+
+@marcas_bp.route("/marca/<int:id>/eliminar")
+def eliminar_marca(id):
+    equipo = Marca.query.get_or_404(id)
+    equipo.activo = False
+    db.session.commit()
+    return redirect(url_for('marcas.agregar_marcas'))

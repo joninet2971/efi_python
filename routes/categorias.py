@@ -6,7 +6,7 @@ categorias_bp = Blueprint('categorias', __name__)
 
 @categorias_bp.route("/categoria", methods=['POST', 'GET'])
 def agregar_categoria():   
-    categorias = Categoria.query.all()
+    categorias = Categoria.query.filter_by(activo=True).all()
 
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -27,3 +27,10 @@ def categoria_editar(id):
         return redirect(url_for('categorias.agregar_categoria'))
 
     return render_template('categoria_edit.html', categorias=categoria)
+
+@categorias_bp.route("/categoria/<int:id>/eliminar")
+def eliminar_categoria(id):
+    equipo = Categoria.query.get_or_404(id)
+    equipo.activo = False
+    db.session.commit()
+    return redirect(url_for('categorias.agregar_categoria'))

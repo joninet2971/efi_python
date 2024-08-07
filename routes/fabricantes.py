@@ -6,7 +6,7 @@ fabricantes_bp = Blueprint('fabricantes', __name__)
 
 @fabricantes_bp.route("/fabricantes", methods=['POST', 'GET'])
 def agregar_fabricante():   
-    fabricantes = Fabricante.query.all()
+    fabricantes = Fabricante.query.filter_by(activo=True).all()
 
     if request.method == 'POST':
         nombre_fabricante = request.form['nombre_fabricante']
@@ -29,3 +29,10 @@ def fabricante_editar(id):
         return redirect(url_for('fabricantes.agregar_fabricante'))
 
     return render_template('fabricante_edit.html', fabricante=fabricante)
+
+@fabricantes_bp.route("/fabricante/<int:id>/eliminar")
+def eliminar_fabricante(id):
+    equipo = Fabricante.query.get_or_404(id)
+    equipo.activo = False
+    db.session.commit()
+    return redirect(url_for('fabricantes.agregar_fabricante'))

@@ -7,7 +7,7 @@ clientes_bp = Blueprint('clientes', __name__)
 @clientes_bp.route("/clientes", methods=['POST', 'GET'])
 def agregar_clientes():
     print("aca")   
-    clientes = Cliente.query.all()
+    clientes = Cliente.query.filter_by(activo=True).all()
 
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -33,3 +33,10 @@ def cliente_editar(id):
         return redirect(url_for('clientes.agregar_clientes')) 
 
     return render_template('cliente_edit.html', cliente=cliente)
+
+@clientes_bp.route("/proveedor/<int:id>/eliminar")
+def eliminar_cliente(id):
+    equipo = Cliente.query.get_or_404(id)
+    equipo.activo = False
+    db.session.commit()
+    return redirect(url_for('clientes.agregar_clientes'))

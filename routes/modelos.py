@@ -6,10 +6,10 @@ modelos_bp = Blueprint('modelos', __name__)
 
 @modelos_bp.route("/modelos", methods=['POST', 'GET'])
 def agregar_modelo():   
-    modelos = Modelo.query.all() 
-    fabricantes = Fabricante.query.all()  
-    marcas = Marca.query.all() 
-    categorias = Categoria.query.all() 
+    modelos = Modelo.query.filter_by(activo=True).all()
+    fabricantes = Fabricante.query.filter_by(activo=True).all()
+    marcas = Marca.query.filter_by(activo=True).all()
+    categorias = Categoria.query.filter_by(activo=True).all()
 
     if request.method == 'POST':
         nombre_modelo = request.form['modelo']
@@ -23,11 +23,11 @@ def agregar_modelo():
 
     return render_template('lista_modelos.html', modelos=modelos, fabricantes=fabricantes, marcas=marcas, categorias=categorias)
 
-@modelos_bp.route("/modelo/<id>/borrar", methods=['GET', 'POST'])
+@modelos_bp.route("/modelo/<id>/eliminar", methods=['GET', 'POST'])
 def modelo_borrar(id):
     modelo = Modelo.query.get_or_404(id)
 
-    db.session.delete(modelo)
+    modelo.activo = False
     db.session.commit()
 
     return redirect(url_for('modelos.agregar_modelo'))
