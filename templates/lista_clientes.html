@@ -23,9 +23,15 @@
                             <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Cliente" required>
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label for="condicion_fiscal" class="form-label">Condicion Fiscal</label>
-                            <input type="text" id="condicion_fiscal" name="condicion_fiscal" class="form-control" placeholder="Condicion Fiscal" required>
+                      
+                        <div class="form-group">
+                            <label for="condicion_fiscal">Condicion Fiscal</label>
+                            <select id="condicion_fiscal" name="condicion_fiscal" class="form-control">
+                                <option value="" disabled selected>Seleccionar Condicion Fiscal</option>
+                                {% for tipo in fiscal %}
+                                <option value="{{ tipo }}">{{ tipo }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
 
                         <div class="form-group mb-3">

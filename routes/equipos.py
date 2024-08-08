@@ -39,13 +39,6 @@ def equipos():
             '256 GB',
             '512 GB'
         ],
-        'procesadores': [
-            'Snapdragon 888',
-            'Exynos 2100',
-            'Dimensity 1200',
-            'Apple A14 Bionic',
-            'Kirin 9000'
-        ],
         'camara_delantera': [
             '8 MP',
             '12 MP',
@@ -60,31 +53,11 @@ def equipos():
             '108 MP',
             '50 MP + 12 MP (dual)'
         ],
-        'conectividad': [
-            '4G',
-            '5G',
-            'Wi-Fi 6',
-            'Bluetooth 5.0',
-            'NFC'
-        ],
-        'sistema_operativo': [
-            'Android 11',
-            'Android 12',
-            'iOS 14',
-            'iOS 15',
-            'HarmonyOS'
-        ],
         'capacidad_bateria': [
             '3000 mAh',
             '4000 mAh',
             '5000 mAh',
             '6000 mAh'
-        ],
-        'tipo_pantalla': [
-            'LCD',
-            'AMOLED',
-            'OLED',
-            'IPS'
         ]
     }
 
@@ -96,13 +69,9 @@ def equipos():
         color = request.form.get('color')
         tamano_pantalla = request.form.get('tamano_pantalla')
         memoria = request.form.get('memoria')
-        procesador = request.form.get('procesador')
         camara_delantera = request.form.get('camara_delantera')
         camara_trasera = request.form.get('camara_trasera')
-        conectividad = request.form.get('conectividad')
-        sistema_operativo = request.form.get('sistema_operativo')
         capacidad_bateria = request.form.get('capacidad_bateria')
-        tipo_pantalla = request.form.get('tipo_pantalla')
 
         nuevo_equipo = Equipo(
             id_marca=marca,
@@ -112,13 +81,10 @@ def equipos():
             color=color,
             tamano_pantalla=tamano_pantalla,
             memoria=memoria,
-            procesador=procesador,
             camara_delantera=camara_delantera,
             camara_trasera=camara_trasera,
-            conectividad=conectividad,
-            sistema_operativo=sistema_operativo,
             capacidad_bateria=capacidad_bateria,
-            tipo_pantalla=tipo_pantalla
+
         )
 
 

@@ -8,7 +8,7 @@ proveedores_bp = Blueprint('proveedores', __name__)
 def agregar_proveedores():   
     
     proveedores = Proveedor.query.filter_by(activo=True).all()
-
+    fiscal = ['Responsable inscripto','Exento','Monotributista']
     if request.method == 'POST':
         nombre = request.form['nombre']
         contacto = request.form['contacto']

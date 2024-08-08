@@ -8,7 +8,7 @@ clientes_bp = Blueprint('clientes', __name__)
 def agregar_clientes():
     print("aca")   
     clientes = Cliente.query.filter_by(activo=True).all()
-
+    fiscal = ['Responsable inscripto','Consumidor Final','Monotributista']
     if request.method == 'POST':
         nombre = request.form['nombre']
         contacto = request.form['contacto']
@@ -19,7 +19,7 @@ def agregar_clientes():
         return redirect(url_for('clientes.agregar_clientes'))
     print("aca")
     
-    return render_template('lista_clientes.html', clientes=clientes)
+    return render_template('lista_clientes.html',fiscal=fiscal, clientes=clientes)
 
 @clientes_bp.route("/cliente/<int:id>/editar", methods=['GET', 'POST'])
 def cliente_editar(id):
