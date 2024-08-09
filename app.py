@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/equipos_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.secret_key = 'python'
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -18,6 +19,10 @@ from routes.fabricantes import fabricantes_bp
 from routes.modelos import modelos_bp
 from routes.index import index_bp
 from routes.clientes import clientes_bp
+from routes.carga_factura_compra import carga_factura_compra_bp  
+from routes.carga_factura_venta import carga_factura_venta_bp  
+from routes.detalle_compra import detalle_compra_bp 
+from routes.detalle_venta import detalle_venta_bp 
 
 
 app.register_blueprint(equipos_bp)
@@ -29,6 +34,10 @@ app.register_blueprint(fabricantes_bp)
 app.register_blueprint(modelos_bp)
 app.register_blueprint(index_bp)
 app.register_blueprint(clientes_bp)
+app.register_blueprint(carga_factura_compra_bp)
+app.register_blueprint(detalle_compra_bp)
+app.register_blueprint(carga_factura_venta_bp)
+app.register_blueprint(detalle_venta_bp)
 
 @app.route("/")
 def index():
