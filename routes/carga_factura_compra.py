@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, request, url_for, session
-from models import Proveedor, Compra, Detalle_Compra
+from flask import Blueprint, render_template, redirect, request, url_for, session, flash
+from models import Proveedor, Compra, Detalle_Compra, Venta
+from utils.validaciones import validarNombre
 from app import db
 
 carga_factura_compra_bp = Blueprint('carga_factura_compra', __name__)
@@ -18,6 +19,10 @@ def carga_factura():
         proveedor_id = request.form['proveedor']
         numero_factura = request.form['numero_factura']
         comprobante = request.form['comprobante']
+
+        if not validarNombre(numero_factura, Compra, Compra.numero_factura):
+            flash('El numero de la factura ya existe en nuestra base de datos', 'error')
+            return redirect(url_for('carga_factura_compra.carga_factura'))  # Cambio aquí
       
         nueva_compra = Compra(
             tipo_comprobante=comprobante,
@@ -27,12 +32,12 @@ def carga_factura():
         db.session.add(nueva_compra)
         db.session.commit()
 
-        
         # Guarda el ID de la compra en la sesión
         session['compra_id'] = nueva_compra.id
 
         # Redirige a la ruta donde se mostrará el detalle
         return redirect(url_for('detalle_compra.detalle_compra'))
+
     total_costo = sum(detalle.equipo.costo * detalle.cantidad for detalle in compras)
     total_cantidad = sum(detalle.cantidad for detalle in compras)
     return render_template('carga_factura_compra.html',

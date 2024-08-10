@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial migration.
 
-Revision ID: e7c01cee8615
+Revision ID: 785f92a60fd2
 Revises: 
-Create Date: 2024-08-07 14:43:17.702462
+Create Date: 2024-08-10 18:52:32.977648
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e7c01cee8615'
+revision = '785f92a60fd2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,7 +22,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nombre_categoria', sa.String(length=255), nullable=False),
     sa.Column('activo', sa.Boolean(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('nombre_categoria')
     )
     op.create_table('cliente',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -30,20 +31,24 @@ def upgrade():
     sa.Column('condicion_fiscal', sa.String(length=255), nullable=False),
     sa.Column('contacto', sa.String(length=255), nullable=False),
     sa.Column('activo', sa.Boolean(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('nombre_cliente')
     )
     op.create_table('fabricante',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nombre_fabricante', sa.String(length=255), nullable=False),
     sa.Column('pais_origen', sa.String(length=255), nullable=False),
     sa.Column('activo', sa.Boolean(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('nombre_fabricante'),
+    sa.UniqueConstraint('pais_origen')
     )
     op.create_table('marca',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nombre_marca', sa.String(length=255), nullable=False),
     sa.Column('activo', sa.Boolean(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('nombre_marca')
     )
     op.create_table('proveedor',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -51,13 +56,13 @@ def upgrade():
     sa.Column('condicion_fiscal', sa.String(length=255), nullable=False),
     sa.Column('contacto', sa.String(length=255), nullable=False),
     sa.Column('activo', sa.Boolean(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('nombre_proveedor')
     )
     op.create_table('compra',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('tipo_comprobante', sa.String(length=255), nullable=False),
     sa.Column('numero_factura', sa.String(length=255), nullable=False),
-    sa.Column('detalle', sa.String(length=255), nullable=False),
     sa.Column('id_proveedor', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['id_proveedor'], ['proveedor.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -73,13 +78,13 @@ def upgrade():
     sa.ForeignKeyConstraint(['id_categoria'], ['categoria.id'], ),
     sa.ForeignKeyConstraint(['id_fabricante'], ['fabricante.id'], ),
     sa.ForeignKeyConstraint(['id_marca'], ['marca.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('nombre_modelo')
     )
     op.create_table('venta',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('tipo_comprobante', sa.String(length=255), nullable=False),
     sa.Column('numero_factura', sa.String(length=255), nullable=False),
-    sa.Column('detalle', sa.String(length=255), nullable=False),
     sa.Column('id_cliente', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['id_cliente'], ['cliente.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -89,8 +94,15 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('id_marca', sa.Integer(), nullable=False),
     sa.Column('id_modelo', sa.Integer(), nullable=False),
+    sa.Column('costo', sa.Numeric(precision=10, scale=2), nullable=False),
     sa.Column('descripcion', sa.String(length=255), nullable=False),
     sa.Column('activo', sa.Boolean(), nullable=False),
+    sa.Column('color', sa.String(length=50), nullable=False),
+    sa.Column('tamano_pantalla', sa.String(length=50), nullable=False),
+    sa.Column('memoria', sa.String(length=50), nullable=False),
+    sa.Column('camara_delantera', sa.String(length=50), nullable=False),
+    sa.Column('camara_trasera', sa.String(length=50), nullable=False),
+    sa.Column('capacidad_bateria', sa.String(length=50), nullable=False),
     sa.ForeignKeyConstraint(['id_marca'], ['marca.id'], ),
     sa.ForeignKeyConstraint(['id_modelo'], ['modelo.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -109,6 +121,7 @@ def upgrade():
     sa.Column('id_venta', sa.Integer(), nullable=False),
     sa.Column('id_equipo', sa.Integer(), nullable=False),
     sa.Column('cantidad', sa.Integer(), nullable=False),
+    sa.Column('precio', sa.Numeric(precision=10, scale=2), nullable=False),
     sa.ForeignKeyConstraint(['id_equipo'], ['equipo.id'], ),
     sa.ForeignKeyConstraint(['id_venta'], ['venta.id'], ),
     sa.PrimaryKeyConstraint('id')
