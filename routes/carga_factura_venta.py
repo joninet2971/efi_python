@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, request, url_for, session
+from flask import Blueprint, render_template, redirect, request, url_for, session, flash
 from models import Cliente, Venta, Detalle_Venta
+from utils.validaciones import validarNombre
 from app import db
 
 carga_factura_venta_bp = Blueprint('carga_factura_venta', __name__)
@@ -18,6 +19,10 @@ def carga_factura():
         cliente_id = request.form['cliente']
         numero_factura = request.form['numero_factura']
         comprobante = request.form['comprobante']
+
+        if not validarNombre(numero_factura, Venta, Venta.numero_factura):
+            flash('El numero de la factura ya existe en nuestra base de datos', 'error')
+            return redirect(url_for('carga_factura_venta.carga_factura'))  
       
         nueva_venta = Venta(
             tipo_comprobante=comprobante,

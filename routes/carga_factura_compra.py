@@ -22,7 +22,7 @@ def carga_factura():
 
         if not validarNombre(numero_factura, Compra, Compra.numero_factura):
             flash('El numero de la factura ya existe en nuestra base de datos', 'error')
-            return redirect(url_for('carga_factura_compra.carga_factura'))  # Cambio aquí
+            return redirect(url_for('carga_factura_compra.carga_factura'))  
       
         nueva_compra = Compra(
             tipo_comprobante=comprobante,
