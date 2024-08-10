@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from models import Marca
+from utils.validaciones import validarNombre
 from app import db
 
 marcas_bp = Blueprint('marcas', __name__)
@@ -11,6 +12,10 @@ def agregar_marcas():
     if request.method == 'POST':
         nombre = request.form['nombre']
         nueva_marca = Marca(nombre_marca=nombre)
+        if not validarNombre(nombre, Marca, Marca.nombre_marca):
+            flash('El nombre ya existe en nuestra base de datos','error')
+            return redirect(url_for('marcas.agregar_marcas'))
+
         db.session.add(nueva_marca)
         db.session.commit()
         return redirect(url_for('marcas.agregar_marcas'))
