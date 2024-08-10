@@ -18,6 +18,7 @@ def agregar_marcas():
 
         db.session.add(nueva_marca)
         db.session.commit()
+        flash('El Ingreso fue exitoso','success')
         return redirect(url_for('marcas.agregar_marcas'))
     
     return render_template('lista_marcas.html', marcas=marcas)
