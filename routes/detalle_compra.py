@@ -10,7 +10,7 @@ def detalle_compra():
     compra_id = session.get('compra_id')
 
     if not compra_id:
-        return redirect(url_for('carga_factura.carga_factura'))
+        return redirect(url_for('carga_factura_compra.carga_factura'))
 
     compra_seleccionada = Compra.query.get(compra_id)
     equipos = Equipo.query.filter_by(activo=True).all()

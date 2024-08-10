@@ -18,7 +18,7 @@ def agregar_proveedores():
         db.session.commit()
         return redirect(url_for('proveedores.agregar_proveedores'))
     
-    return render_template('lista_proveedores.html', proveedores=proveedores)
+    return render_template('lista_proveedores.html', fiscal=fiscal,proveedores=proveedores)
 
 @proveedores_bp.route("/proveedor/<int:id>/editar", methods=['GET', 'POST'])
 def proveedor_editar(id):

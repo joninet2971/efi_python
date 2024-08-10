@@ -34,7 +34,7 @@ def cliente_editar(id):
 
     return render_template('cliente_edit.html', cliente=cliente)
 
-@clientes_bp.route("/proveedor/<int:id>/eliminar")
+@clientes_bp.route("/cliente/<int:id>/eliminar")
 def eliminar_cliente(id):
     equipo = Cliente.query.get_or_404(id)
     equipo.activo = False
