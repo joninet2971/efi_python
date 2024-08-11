@@ -37,8 +37,16 @@
             {% include 'validacion.html' %}
             <div class="col-12 mt-3">
                 <h3 class="text-white">Detalle Todas las Ventas</h3>
+                <select id="clienteFilter" class="form-control">
+                    <option value="">Todos los clientes</option>
+                    {% for cliente in clientes %}
+                    <option value="{{ cliente.nombre_cliente }}">{{ cliente.nombre_cliente }}</option>
+                    {% endfor %}
+                </select>
+                <br>
             </div>
-    
+            <br>
+            
             <table class="table table-dark table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
@@ -50,18 +58,17 @@
                         
                     </tr>
                 </thead>
-                <tbody >
+                <tbody id="ventasTableBody">
                     {% for detalle in ventas %}
-                    <tr>
+                    <tr data-cliente="{{ detalle.venta.cliente.nombre_cliente }}">
                         <td>{{ detalle.venta.cliente.nombre_cliente }}</td>
                         <td>{{ detalle.venta.numero_factura}}</td>
                         <td>{{ detalle.equipo.marca.nombre_marca }} - {{ detalle.equipo.modelo.nombre_modelo }}</td>
                         <td>{{ detalle.equipo.costo }}</td>
                         <td>{{ detalle.cantidad }}</td>
-                        
                     </tr>
                     {% endfor %}
-                </tbody>
+                </tbody>                
                 
                 <tfoot>
                     <tr>
@@ -78,5 +85,32 @@
         
     </div>   
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const clienteFilter = document.getElementById('clienteFilter');
+        const ventasTableBody = document.getElementById('ventasTableBody');
+
+        clienteFilter.addEventListener('change', function() {
+            const selectedCliente = this.value;
+            const rows = ventasTableBody.getElementsByTagName('tr');
+            let totalCosto = 0;
+            let totalCantidad = 0;
+
+            for (let row of rows) {
+                if (selectedCliente === '' || row.dataset.cliente === selectedCliente) {
+                    row.style.display = '';
+                    totalCosto += parseFloat(row.children[3].textContent);
+                    totalCantidad += parseInt(row.children[4].textContent);
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+
+            // Actualizar totales
+            document.querySelector('tfoot th:nth-child(4)').textContent = totalCosto.toFixed(2);
+            document.querySelector('tfoot th:nth-child(5)').textContent = totalCantidad;
+        });
+    });
+</script>
 
 {% endblock %}
