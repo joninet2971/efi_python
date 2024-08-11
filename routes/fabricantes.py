@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from models import Fabricante
+from utils.validaciones import validarNombre
 from app import db
 
 fabricantes_bp = Blueprint('fabricantes', __name__)
@@ -12,8 +13,12 @@ def agregar_fabricante():
         nombre_fabricante = request.form['nombre_fabricante']
         pais_origen = request.form['pais_origen']
         nuevo_fabricante = Fabricante(nombre_fabricante=nombre_fabricante, pais_origen=pais_origen)
+        if not validarNombre(nombre_fabricante, Fabricante, Fabricante.nombre_fabricante):
+            flash('El nombre ya existe en la base de datos', 'error')
+            return redirect(url_for('fabricantes.agregar_fabricante'))
         db.session.add(nuevo_fabricante)
         db.session.commit()
+        flash('Fabricante agregado correctamente', 'success')
         return redirect(url_for('fabricantes.agregar_fabricante'))
 
     return render_template('lista_fabricantes.html', fabricantes=fabricantes)

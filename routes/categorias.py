@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from models import Categoria
+from utils.validaciones import validarNombre
 from app import db
 
 categorias_bp = Blueprint('categorias', __name__)
@@ -10,9 +11,13 @@ def agregar_categoria():
 
     if request.method == 'POST':
         nombre = request.form['nombre']
+        if not validarNombre(nombre, Categoria, Categoria.nombre_categoria):
+            flash('El nombre de la categoría ya existe', 'error')
+            return redirect(url_for('categorias.agregar_categoria'))
         nueva_categoria = Categoria(nombre_categoria=nombre)
         db.session.add(nueva_categoria)
         db.session.commit()
+        flash('Categoría agregada correctamente', 'success')
         return redirect(url_for('categorias.agregar_categoria'))
     
     return render_template('lista_categorias.html', categorias=categorias)

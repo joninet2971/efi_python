@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from app import db
+from utils.validaciones import validarNombre
 from models import Fabricante, Marca, Modelo, Categoria
 
 modelos_bp = Blueprint('modelos', __name__)
@@ -16,9 +17,22 @@ def agregar_modelo():
         id_fabricante = int(request.form['id_fabricante'])
         id_marca = int(request.form['id_marca'])
         id_categoria = int(request.form['id_categoria'])
+
+        modelo_existente = Modelo.query.filter_by(
+        nombre_modelo=nombre_modelo,
+        id_fabricante=id_fabricante,
+        id_marca=id_marca,
+        id_categoria=id_categoria
+        ).first()
+
+        if modelo_existente:
+            flash('El modelo ya existe en nuestra base de datos con la misma combinación de fabricante, marca y categoría', 'error')
+            return redirect(url_for('modelos.agregar_modelo'))
+        
         nuevo_modelo = Modelo(nombre_modelo=nombre_modelo, id_fabricante=id_fabricante, id_marca=id_marca, id_categoria = id_categoria )
         db.session.add(nuevo_modelo)
         db.session.commit()
+        flash('Modelo agregado correctamente', 'success')
         return redirect(url_for('modelos.agregar_modelo'))
 
     return render_template('lista_modelos.html', modelos=modelos, fabricantes=fabricantes, marcas=marcas, categorias=categorias)
